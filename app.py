@@ -7,8 +7,8 @@ from template import all_boards
 import os
 from srf_log import init_log
 
-from stock_web.template import board_rank
-from stock_web.template import stocks_price
+from template import board_rank
+from template import stocks_price
 
 
 
