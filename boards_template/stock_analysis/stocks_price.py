@@ -1,6 +1,6 @@
-from stock_web.config import cur, db
+from config import cur
 import traceback
-from stock_web.template import all_boards
+from boards_template import all_boards
 import datetime
 # 所有总股本数，建立一个字典
 def get_code_shares():

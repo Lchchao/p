@@ -1,8 +1,8 @@
 from config import cur,db
 import traceback
-from template.all_boards import get_wande_boards3
+from boards_template.all_boards import get_wande_boards3
 import datetime
-from template.stocks_price import get_board_stocks
+from boards_template.stock_analysis.stocks_price import get_board_stocks
 
 # 使用一次后，跳过不再使用
 def insert_table():

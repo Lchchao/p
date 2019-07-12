@@ -1,6 +1,6 @@
 
 import traceback
-from stock_web.config import cur
+from config import cur
 
 
 # 获取所有的板块代码，名称和简称

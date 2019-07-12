@@ -5,12 +5,10 @@ CUR_PATH = os.path.dirname(os.path.abspath(__file__))
 root_path = os.path.split(CUR_PATH)[0] + '/../'
 sys.path.append(os.path.join(root_path))
 
-
-
-from stock_web.template import all_boards
-from stock_web.template import stocks_price
+from boards_template import all_boards
+from boards_template.stock_analysis import stocks_price
 import pandas as pd
-import datetime, time
+import datetime
 
 
 # 使用简称，调用stock_price函数
@@ -33,7 +31,7 @@ def get_borad_change_date(board, days=0):
         print(board, day)
         if day in date_read_list:
             continue
-        board_msg = stocks_price.get_board_stocks(board,day)
+        board_msg = stocks_price.get_board_stocks(board, day)
         if board_msg is not None:
             print(board_msg)
             board,date,changepct = board_msg

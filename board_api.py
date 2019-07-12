@@ -1,17 +1,12 @@
-
-from flask import Flask,request,abort
-app = Flask(__name__)
 import time
 import json
-from template import all_boards
 import os
-from srf_log import init_log
+from boards_template import board_rank, all_boards
+from boards_template.stock_analysis import stocks_price
 
-from template import board_rank
-from template import stocks_price
+from flask import Flask, request, render_template
 
-
-
+app = Flask(__name__)
 
 
 CUR_PATH = os.path.dirname(os.path.abspath(__file__))
@@ -43,17 +38,18 @@ def build_reponse(data, error_code=0):
 
 
 
-log_path = os.path.join(CUR_PATH, './log')
-if not os.path.exists(log_path):
-    os.makedirs(log_path)
-init_log(log_path, 'stock_web')
-
 
 
 
 @app.route('/')
 def route():
-    return 'hello world'
+    return render_template('index.html')
+
+
+
+
+
+
 
 
 @app.route('/boards_name')
@@ -81,17 +77,9 @@ def board_stock_change():
 
 
 
-
-
-
 @app.route('/board/rank_days')
 def get_borad_rank_days():
     pass
 
 
 
-
-
-
-app.debug = True
-app.run()
