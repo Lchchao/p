@@ -18,7 +18,7 @@ base_path = os.path.split(CUR_PATH)[0]
 
 
 
-data_path = base_path + '/data'
+data_path = os.path.join(base_path, 'data')
 
 
 
