@@ -6,7 +6,7 @@ import os
 
 board_data = os.path.join(data_path,'industry_stock.csv')
 
-print(board_data)
+# print(board_data)
 
 
 
