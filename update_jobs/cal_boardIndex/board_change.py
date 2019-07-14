@@ -41,7 +41,7 @@ def cal_board_list_change():
     with open('%s' % out_put, 'a', encoding='utf-8') as file:
         file.write('%s\n' % ','.join(board_list))
         print(board_list)
-        for date in date_list[:1]:
+        for date in date_list[:5]:
             change_line = []
             for board in board_list:
                 print(date, board)
@@ -55,6 +55,6 @@ def cal_board_list_change():
 
 
 if __name__ == "__main__":
-    # r = board_date_change('综合类', '19901219')
+    # r = board_date_change('制药', '19910110')
     r = cal_board_list_change()
     print(r)
