@@ -29,7 +29,11 @@ def get_borad_change_interval(board, start, end):
         industry = []
         print(change_list[0][number])
         for index in range(len(change_list[number])):
-            print(change_list[number][0])
+            # print(change_list[index][number])
+            industry.append(change_list[index][number])
+        result.append(industry)
+    for item in result:
+        print(item)
 
     # data = [change_list[i][j] for j in range(len(change_list[0])) for i in range(len(change_list))]
     # print(data)
