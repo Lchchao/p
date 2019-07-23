@@ -1,43 +1,59 @@
 import os,sys
+from config import data_path
 
-CUR_PATH = os.path.dirname(os.path.abspath(__file__))
 
-root_path = os.path.split(CUR_PATH)[0] + '/../'
-sys.path.append(os.path.join(root_path))
-
-from boards_template import all_boards
-from boards_template.stock_analysis import stocks_price
 import pandas as pd
-import datetime
+
+boardfile = os.path.join(data_path,'index_data.csv')
 
 
 # 使用简称，调用stock_price函数
-def get_borad_change_date(board, days=0):
-    date_now = datetime.datetime.now()
-    date_str = datetime.datetime.strftime(date_now, '%Y-%m-%d')
-    date_begin = date_now - datetime.timedelta(days=days)
-    begin_str = datetime.datetime.strftime(date_begin, '%Y-%m-%d')
-    date_index = pd.date_range(begin_str, date_str)
-    date_list = [pd.Timestamp(x).strftime("%Y-%m-%d") for x in date_index.values]
-    print(date_list)
-    filename = (CUR_PATH + '/../data/%s.txt' % board)
-    file_read = open(filename, 'r', encoding='utf-8')
-    date_read_list = []
-    for content in file_read:
-        item = content.split(',')
-        date_read = item[1]
-        date_read_list.append(date_read)
-    for day in date_list:
-        print(board, day)
-        if day in date_read_list:
-            continue
-        board_msg = stocks_price.get_board_stocks(board, day)
-        if board_msg is not None:
-            print(board_msg)
-            board,date,changepct = board_msg
-            print(board_msg)
-            file_wirite = open(filename, 'a', encoding='utf-8')
-            file_wirite.write('%s,%s,%s\n' % (board, date, changepct))
+def get_borad_change_interval(board, start, end):
+    df_board = pd.read_csv(boardfile)
+    print(df_board)
+    date_list = df_board['date'].tolist()
+    lines = [date_list[i] for i in range(len(date_list)) if str(date_list[i]) >= start and str(date_list[i]) <= end]
+    begin = [1000.,]* len(df_board.columns[1:])
+    change_list = []
+    for date in lines:
+        df_new = df_board.loc[df_board['date'] == date, df_board.columns[1:]]
+        value = df_new.values.tolist()[0]
+        index = [begin[i]*(1.+value[i]/100.) for i in range(len(value))]
+        begin = index
+        val = [(df_board.columns[i+1], date, value[i], begin[i]) for i in range(len(value))]
+        print(val)
+        change_list.append(val)
+    print(change_list)
+    result = []
+    for number in range(len(change_list[0])):
+        industry = []
+        print(change_list[0][number])
+        for index in range(len(change_list[number])):
+            print(change_list[number][0])
+
+    # data = [change_list[i][j] for j in range(len(change_list[0])) for i in range(len(change_list))]
+    # print(data)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # 新建立，每个文件
 def get_all_borads():
@@ -111,12 +127,7 @@ def get_increase_states(start, end):
 
 
 if __name__ == "__main__":
-
-    log_path = os.path.join(CUR_PATH, '../data')
-    if not os.path.exists(log_path):
-        os.makedirs(log_path)
-
-    r = get_increase_states('20190401', '20190625')
+    r = get_borad_change_interval('水务','20190601', '20190625')
     print(r)
 
 
