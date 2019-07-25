@@ -42,7 +42,7 @@ def get_update_date_list(last_date):
 def update_board_change():
     last_date = get_board_new_date()
     date_list = get_update_date_list(last_date)
-    board_list = board_stock.board_to_stock()[0]
+    board_list = board_stock.board_to_stock().keys()
     out_put = data_path + '/index_data.csv'
     with open('%s' % out_put, 'a', encoding='utf-8') as file:
         print(board_list)

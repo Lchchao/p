@@ -13,7 +13,6 @@ board_data = os.path.join(data_path,'industry_stock.csv')
 
 
 def board_to_stock():
-    board_list = []
     board_dict = {}
     with open (board_data, 'r', encoding='utf-8') as file:
         for content in file:
@@ -21,9 +20,15 @@ def board_to_stock():
             industry = item[6].strip('"')
             if industry not in board_dict:
                 board_dict[industry] = []
-                board_list.append(industry)
             board_dict[industry].append(item[1].strip('"'))
-        return board_list, board_dict
+        return board_dict
+
+
+
+
+
+
+
 
 
 

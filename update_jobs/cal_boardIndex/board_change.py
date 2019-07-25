@@ -15,7 +15,7 @@ import traceback
 
 
 def board_date_change(board, date):
-    board_dict= board_stock.board_to_stock()[1]
+    board_dict= board_stock.board_to_stock()
     if board in board_dict.keys():
         stocks = board_dict[board]
         stock_price = stock_info.get_stock_list_price(date, stocks)

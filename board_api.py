@@ -3,6 +3,7 @@ import json
 import os
 from boards_template import board_rank, all_boards
 from boards_template.stock_analysis import stocks_price
+from boards_template import board_has_stocks
 
 from flask import Flask, request, render_template
 
@@ -58,21 +59,21 @@ def get_allboards():
     return build_reponse(boards, error_code=0)
 
 
-@app.route('/board/change',methods=['GET'])
+@app.route('/boardlist',methods=['GET'])
 def board_index_change():
     start = request.args.get('start')
     end = request.args.get('end')
-    data = board_rank.get_increase_states(start, end)
+    data = board_rank.get_borad_change_interval(start, end)
     return build_reponse(data, error_code=0)
 
 
 
-@app.route('/board/stock',methods=['GET'])
+@app.route('/boardlist/board',methods=['GET'])
 def board_stock_change():
     start = request.args.get('start')
     end = request.args.get('end')
     board = request.args.get('board')
-    data = stocks_price.board_stock_list(board, start, end)
+    data = board_has_stocks.stock_change_in_board(board, start, end)
     return build_reponse(data, error_code=0)
 
 

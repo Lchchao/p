@@ -8,7 +8,7 @@ boardfile = os.path.join(data_path,'index_data.csv')
 
 
 # 使用简称，调用stock_price函数
-def get_borad_change_interval(board, start, end):
+def get_borad_change_interval(start, end):
     df_board = pd.read_csv(boardfile)
     print(df_board)
     date_list = df_board['date'].tolist()
@@ -20,10 +20,9 @@ def get_borad_change_interval(board, start, end):
         value = df_new.values.tolist()[0]
         index = [begin[i]*(1.+value[i]/100.) for i in range(len(value))]
         begin = index
-        val = [(df_board.columns[i+1], date, value[i], begin[i]) for i in range(len(value))]
-        print(val)
+        val = [(df_board.columns[i+1], date, round(value[i],4), round(begin[i], 4)) for i in range(len(value))]
         change_list.append(val)
-    print(change_list)
+
     result = []
     for number in range(len(change_list[0])):
         industry = []
@@ -31,14 +30,27 @@ def get_borad_change_interval(board, start, end):
             industry.append(change_list[index][number])
         result.append(industry)
 
+    industry_list = []
     for item in result:
-        print(item)
+        indu_dict = {}
+        indu_dict['name'] = item[0][0]
+        indu_dict['start'] = str(item[0][1])
+        indu_dict['end'] = str(item[-1][1])
+        indu_dict['index'] = item[-1][-1]
+        # indu_dict['data_list'] = [
+        #     {'date': str(item[i][1]),
+        #      'changepct': item[i][2],
+        #      'day_index': item[i][3]
+        #      }
+        #     for i in range(len(item))
+        # ]
+        industry_list.append(indu_dict)
 
+    indu_sort = sorted(industry_list, key=lambda x: x['index'], reverse=True)
+    for num in range(len(indu_sort)):
+        indu_sort[num]['id_rank'] = num+1
 
-
-
-
-
+    return indu_sort
 
 
 
@@ -57,7 +69,7 @@ def get_borad_change_interval(board, start, end):
 
 
 if __name__ == "__main__":
-    r = get_borad_change_interval('水务','20190601', '20190625')
+    r = get_borad_change_interval('20190601', '20190625')
     print(r)
 
 

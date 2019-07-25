@@ -43,16 +43,18 @@ def get_stock_list_price(date, stockList):
                 range(len(stockList)) if stockList[i].startswith('6')]
     stock_price = []
     if len(stock_sh) >= 2:
-        stock_sql = "SELECT code, close, changePct from 163_dayk_bfq_sh " \
+        stock_sql = "SELECT code,  name, close, changePct from 163_dayk_bfq_sh " \
                     "where timestamp = '%s' and code in %s" % (date, tuple(stock_sh))
         try:
             cur.execute(stock_sql)
             result = cur.fetchall()
             for item in result:
-                # print(item)
-                if item[2] > 15.0:
+                if item[3] is None:
                     continue
-                stock_price.append(item)
+                else:
+                    if item[3] > 15.0:
+                        continue
+                    stock_price.append(item)
         except Exception:
             traceback.print_exc()
     elif len(stock_sh) == 1:
@@ -62,15 +64,18 @@ def get_stock_list_price(date, stockList):
     stock_sz = set(stockList) - set([stock+'.SH' for stock in stock_sh])
     stock_sz = [stock.split('.')[0] for stock in list(stock_sz)]
     if len(stock_sz) >= 2:
-        sz_sql = "SELECT code, close, changePct from 163_dayk_bfq_sz " \
+        sz_sql = "SELECT code, name, close, changePct from 163_dayk_bfq_sz " \
                     "where timestamp = '%s' and code in %s" % (date, tuple(stock_sz))
         try:
             cur.execute(sz_sql)
             result = cur.fetchall()
             for item in result:
-                if item[2] > 15.0:
+                if item[3] is None:
                     continue
-                stock_price.append(item)
+                else:
+                    if item[3] > 15.0:
+                        continue
+                    stock_price.append(item)
         except Exception:
             traceback.print_exc()
     elif len(stock_sz) == 1:
