@@ -90,7 +90,6 @@ def cal_stock_change_by_mkv(stockPrice):
         mkv_sum = 0.0
         change_sum = 0.0
         for content in stockPrice:
-            # print(content)
             code = str(content[0]).zfill(6)
             price = content[1]
             changePct = content[2]

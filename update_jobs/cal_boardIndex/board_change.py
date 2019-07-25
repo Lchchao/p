@@ -1,7 +1,16 @@
+import os,sys
+CUR_PATH = os.path.split(os.path.abspath(__file__))[0]
+#print(CUR_PATH)
+
+root_path = CUR_PATH + '/../../'
+print(root_path)
+sys.path.append(os.path.join(root_path))
+
+
 from update_jobs.cal_boardIndex import board_stock
 from update_jobs.cal_boardIndex import stock_info
 from config import db, cur, data_path
-import traceback, os
+import traceback
 
 
 
@@ -40,8 +49,7 @@ def cal_board_list_change():
     out_put = data_path + '/index_data.csv'
     with open('%s' % out_put, 'a', encoding='utf-8') as file:
         file.write('%s\n' % ','.join(board_list))
-        print(board_list)
-        for date in date_list[:5]:
+        for date in date_list:
             change_line = []
             for board in board_list:
                 print(date, board)
